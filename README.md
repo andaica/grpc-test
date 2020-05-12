@@ -18,6 +18,7 @@ Comming soon...
 - Edit host and port which is running grpc server in main.go:13
 - Edit myClient init in main.go:26
 - Edit param req and grpc func you want to test
+- Run: `go run main.go ` in terminal
 
 ## TODO
 
