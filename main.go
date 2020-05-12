@@ -35,9 +35,9 @@ func main() {
 
 	res, err := myClient.CreateUser(ctx, &req)
 	if err != nil {
-		log.Fatalf("could not GetLessonInfo: %v", err)
+		log.Fatalf("error call grpc: %v", err)
 	}
 
-	log.Printf("GetLessonInfo: %v", res)
+	log.Printf("response: %v", res)
 
 }
