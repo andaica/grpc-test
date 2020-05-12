@@ -1,0 +1,385 @@
+syntax = "proto3";
+
+package UserService;
+
+service UserService {
+    rpc Send(Message) returns (Message);
+    rpc UserProfile(UserId) returns (ResProfile);
+    rpc ResetPassword(Email) returns (UpdateMessege);
+    rpc ListTraineeProfile(ReqListProfile) returns (ListProfile);
+    rpc ListFollowingID(UserId) returns (ResListFollowingID);
+    rpc GetUserShortInfo(UserId) returns (UserShortInfo);
+    rpc GetFriendList(UserId) returns (FriendList);
+    rpc GetUserType(Token) returns (UserType);
+    rpc CheckUserAuth(Token) returns(UserInfoAuth);
+    rpc ListIdFilter(ReqListProfile) returns (UserIds);
+    rpc TrainingRoomFilter(FilterData) returns(UserIds);
+    rpc GetListFriendSummaryInfo(UserId) returns (ListFriendSummaryInfo);
+    rpc GetUserSubscription(UserId) returns (UserSubscription);
+    rpc GetUserTickets(ReqGetUserTicket) returns (ResGetUserTicket);
+    rpc UpdateUserTicket(UserTicket) returns (StatusResponse);
+
+    // ecsite
+    rpc IsMailExist(Email) returns (StatusResponse);
+    rpc Login(AuthInfo) returns (LoginResponse);
+    rpc CreateUser(AuthInfo) returns (LoginResponse);
+    rpc SearchUsers(ReqSearchUsers) returns (ResSearchUsers);
+    rpc RemoveUser(ReqRemoveUser) returns (StatusResponse);
+    rpc AddProfile(ReqUpdateProfile) returns (StatusResponse);
+    rpc GetProfile(ReqGetProfile) returns (ResGetProfile);
+    rpc UpdateProfile(ReqUpdateProfile) returns (StatusResponse);
+    rpc UpdateMail(ReqUpdateMail) returns (StatusResponse);
+    rpc UpdatePassword(ReqUpdatePassword) returns (StatusResponse);
+    rpc GetSubscription(ReqGetSubscription) returns (ResGetSubscription);
+    rpc AddTicket(ReqAddTicket) returns (StatusResponse);
+    rpc SearchTicket(ReqSearchTicket) returns (ResSearchTicket);
+}
+
+message UpdateMessege {
+    bool status = 1;
+    string errMsg = 2;
+    int32 user_id = 3;
+}
+
+message Email {
+    string email = 1;
+}
+
+message Message {
+    string msg = 1;
+}
+
+message FriendList {
+    repeated int32 following = 1;
+    repeated int32 followed = 2;
+    repeated int32 friend = 3;
+}
+
+message Token {
+    string accessToken = 1;
+    string deviceID = 2;
+    int32 programID = 3;
+}
+
+message UserType{
+    uint32 type = 1;
+}
+
+message ReqListProfile {
+    repeated int32 id = 1;
+    string query = 2;
+    bool keepOrder = 3;
+}
+
+message ListProfile {
+    repeated UserInfo users = 1;
+}
+
+message UserShortInfo {
+    int32 id = 1;
+    int32 type = 2;
+    int32 status = 3;
+    string email = 4;
+}
+
+message UserId {
+    int32 id = 1;
+    uint32 userType = 2; 
+}
+
+message UserInfoAuth {
+    int32 id = 1;
+    uint32 userType = 2; 
+    UserSubscriptionData subscription = 3;
+    int32 stage = 4;
+    string name = 5;
+    int32 gender = 6;
+    int32 generation = 7;
+    string avatar = 8;
+    string address = 9;
+    int32 bestScore = 10;
+    string birthday = 11;
+    int32 age = 12;
+    int32 trainingCnt = 13;
+}
+
+message ResProfile {
+    string code = 1;
+    string message = 2;
+    UserInfo data = 3;
+}
+
+message ResListFollowingID{
+    repeated int32 id = 1;
+}
+
+message UserInfo {
+    string fullname = 1; //nick name
+    string birthday = 2;
+    int32 gender = 3;
+    int32 height = 4;
+    int32 weight = 5;
+    int32 type = 6;
+    string address = 7;  //addr_1
+    string avatar = 8;
+    int32 id = 9;
+    int32 age = 10;
+    string countryCode = 11;
+    int32 status = 12;
+    int32 mtgid = 13;
+    int32 generation = 14;
+}
+
+message UserIds{
+    repeated int32 id = 1;
+}
+
+message FriendSummaryInfo {
+    int32 ID = 1;
+    string Name = 2;
+    string Avatar = 3;
+}
+
+message UserSubscriptionData {
+    int32 type = 1;
+    int32 status = 2;
+    bool isBike = 3;
+}
+
+message ListFriendSummaryInfo {
+    repeated FriendSummaryInfo Friends = 1;
+}
+
+message FilterData {
+    int32 GenFrom = 1;
+    int32 GenTo = 2;
+    int32 Gender = 3;
+    int32 Friend = 4;
+    int32 trainingCnt = 5;
+    bool isSl = 6;
+    bool isBirthday = 7;
+    bool isBest = 8;
+    string TrainingID = 9;
+    int32 UserID = 10;
+    repeated int32 ListIds = 11;
+}
+
+message AuthInfo {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string code = 1;
+    string message = 2;
+    AuthData data = 3;
+}
+
+message AuthData {
+    int32 user_id = 1;
+    string registration_code = 2;
+}
+
+message StatusResponse {
+    string code = 1;
+    string message = 2;
+    Status data = 3;
+}
+
+message Status {
+    bool status = 1;
+}
+
+message ReqGetProfile {
+    int32 user_id = 1;
+    bool is_need_auth = 2;
+}
+
+message ResGetProfile {
+    string code = 1;
+    string message = 2;
+    Profile data = 3;
+}
+
+message Profile {
+    int32 user_id = 1;
+    string email = 2;
+    string password = 3;
+    string avatar = 4;
+    string family_name = 5;
+    string given_name = 6;
+    string family_name_kana = 7;
+    string given_name_kana = 8;
+    string nickname = 9;
+    int32 gender = 10;
+    string birthday = 11;
+    string zip_code = 12;
+    int32 prefecture_id = 13;
+    string city = 14;
+    string street = 15;
+    string building = 16;
+    string phone_number = 17;
+    bool is_receive_mail = 18;
+    int32 user_group = 19;
+}
+
+message ReqUpdateProfile {
+    int32 user_id = 1;
+    string avatar = 2;
+    string family_name = 3;
+    string given_name = 4;
+    string family_name_kana = 5;
+    string given_name_kana = 6;
+    string nickname = 7;
+    string birthday = 8;
+    int32 gender = 9;
+    string zip_code = 10;
+    int32 prefecture_id = 11;
+    string city = 12;
+    string street = 13;
+    string building = 14;
+    string phone_number = 15;
+    bool is_receive_mail = 16;
+    int32 user_group = 17;
+    string registration_code = 18;
+}
+
+message ReqUpdateMail {
+    int32 user_id = 1;
+    string email = 2;
+}
+
+message ReqUpdatePassword {
+    int32 user_id = 1;
+    string password = 2;
+}
+
+message ReqGetUserTicket {
+    int32 user_id = 1;
+}
+
+message ResGetUserTicket {
+    repeated UserTicket tickets = 1;
+}
+
+message UserTicket {
+    int32 id = 1;
+    int32 user_id = 2;
+    int32 program_id = 3;
+    int32 type = 4;
+    int32 status = 5;
+    string valid_at = 6;
+    string expired_at = 7;
+}
+
+message ReqSearchUsers {
+    string keyword = 1;
+    int32 user_id_from = 2;
+    int32 user_id_to = 3;
+    string family_name = 4;
+    string given_name = 5;
+    string family_name_kana = 6;
+    string given_name_kana = 7;
+    string nickname = 8;
+    int32 gender = 9;
+    string birthday_from = 10;
+    string birthday_to = 11;
+    string zip_code = 12;
+    int32 prefecture_id = 13;
+    string city = 14;
+    string street = 15;
+    string building = 16;
+    string phone_number = 17;
+    int32 user_group = 18;
+    int32 subscription = 19;
+    int32 trial_ticket_number = 20;
+    int32 month_ticket_number = 21;
+    int32 once_ticket_number = 22;
+    string order = 23;
+    string sort = 24;
+    int32 limit = 25;
+    int32 page = 26;
+}
+
+message ResSearchUsers {
+    string code = 1;
+    string message = 2;
+    ResSearchUsersObject data = 3;
+}
+
+message ResSearchUsersObject {
+    int32 total = 1;
+    int32 count = 2;
+    int32 current_page = 3;
+    int32 next_page = 4;
+    repeated SearchUsersObject users = 5;
+}
+
+message SearchUsersObject {
+    int32 user_id = 1;
+    string family_name = 2;
+    string given_name = 3;
+    string family_name_kana = 4;
+    string given_name_kana = 5;
+    string nickname = 6;
+    int32 gender = 7;
+    string birthday = 8;
+    string zip_code = 9;
+    int32 prefecture_id = 10;
+    string city = 11;
+    string street = 12;
+    string building = 13;
+    string phone_number = 14;
+    int32 user_group = 15;
+    int32 subscription = 16;
+    int32 trial_ticket_number = 17;
+    int32 month_ticket_number = 18;
+    int32 once_ticket_number = 19;
+}
+
+message ReqRemoveUser {
+    int32 user_id = 1;
+}
+
+message ReqGetSubscription {
+    int32 user_id = 1;
+}
+
+message ResGetSubscription {
+    string code = 1;
+    string message = 2;
+    UserSubscription data = 3;
+}
+
+message UserSubscription {
+    int32 user_id = 1;
+    int32 type = 2;
+    int32 status = 3;
+    bool is_bike = 4;
+    string expired_at = 5;
+    int32 next_status = 6;
+    int32 next_type = 7;
+}
+
+message ReqAddTicket {
+    int32 user_id = 1;
+    int32 type = 2;
+}
+
+message ReqSearchTicket {
+    int32 user_id = 1;
+    repeated int32 type = 2;
+    repeated int32 status = 3;
+}
+
+message ResSearchTicket {
+    string code = 1;
+    string message = 2;
+    repeated ResSearchTicketData data = 3;
+}
+
+message ResSearchTicketData {
+    int32 type = 1;
+    int32 status = 2;
+    int32 count = 3;
+}
